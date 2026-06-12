@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.newsletter'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // AWS SDK v2
+    implementation platform('software.amazon.awssdk:bom:2.25.60')
+    implementation 'software.amazon.awssdk:dynamodb'
+    implementation 'software.amazon.awssdk:s3'
+    implementation 'software.amazon.awssdk:dynamodb-enhanced'
+
+    // AWS Lambda
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.4'
+
+    // RSS parsing
+    implementation 'com.rometools:rome:2.1.0'
+
+    // HTML scraping
+    implementation 'org.jsoup:jsoup:1.17.2'
+
+    // Anthropic SDK
+    implementation 'com.anthropic:anthropic-java:1.2.0'
+
+    // JSON
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.0'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0'
+
+    // Logging
+    implementation 'org.slf4j:slf4j-api:2.0.12'
+    implementation 'org.slf4j:slf4j-simple:2.0.12'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task packageFetcher(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') { from configurations.runtimeClasspath }
+    archiveFileName = 'fetcher-lambda.zip'
+}
+
+task packageCurator(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') { from configurations.runtimeClasspath }
+    archiveFileName = 'curator-lambda.zip'
+}
+
+task packageApi(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') { from configurations.runtimeClasspath }
+    archiveFileName = 'api-lambda.zip'
+}
