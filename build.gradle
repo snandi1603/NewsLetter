@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.github.goooler.shadow' version '8.1.8'
 }
 
 group = 'com.newsletter'
@@ -80,4 +81,10 @@ task packageApi(type: Zip) {
     from processResources
     into('lib') { from configurations.runtimeClasspath }
     archiveFileName = 'api-lambda.zip'
+}
+
+shadowJar {
+    archiveBaseName.set('ai-coffee-newsletter')
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('all')
 }
