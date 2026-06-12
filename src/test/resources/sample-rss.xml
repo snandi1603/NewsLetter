@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Anthropic Blog</title>
+    <link>https://anthropic.com/blog</link>
+    <item>
+      <title>Introducing Claude 4</title>
+      <link>https://anthropic.com/blog/claude-4</link>
+      <description>We are excited to announce Claude 4, our most capable model yet.</description>
+      <pubDate>Thu, 12 Jun 2026 10:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Safety Research Update</title>
+      <link>https://anthropic.com/blog/safety-update</link>
+      <description>Our latest research on constitutional AI methods.</description>
+      <pubDate>Wed, 11 Jun 2026 09:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
