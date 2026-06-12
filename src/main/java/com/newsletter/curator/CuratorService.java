@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class CuratorService {
 
     private static final int TOP_N = 5;
-    private static final int MAX_ARTICLES = 50;
+    private static final int MAX_ARTICLES = 20;
 
     private final DynamoDbRepository repository;
     private final ClaudeClient claudeClient;

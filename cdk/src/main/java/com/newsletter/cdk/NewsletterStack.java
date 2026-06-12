@@ -76,6 +76,11 @@ public class NewsletterStack extends Stack {
             "BUCKET_NAME", siteBucket.getBucketName()
         );
 
+        // Curator needs the Anthropic API key (read from ANTHROPIC_API_KEY env var at deploy time)
+        String anthropicKey = System.getenv("ANTHROPIC_API_KEY");
+        Map<String, String> curatorEnv = new java.util.HashMap<>(lambdaEnv);
+        curatorEnv.put("ANTHROPIC_API_KEY", anthropicKey != null ? anthropicKey : "");
+
         // Fetcher Lambda
         software.amazon.awscdk.services.lambda.Function fetcherLambda =
             software.amazon.awscdk.services.lambda.Function.Builder.create(this, "FetcherLambda")
@@ -97,7 +102,7 @@ public class NewsletterStack extends Stack {
             .code(software.amazon.awscdk.services.lambda.Code.fromAsset("../build/libs/ai-coffee-newsletter-1.0.0-all.jar"))
             .memorySize(512)
             .timeout(Duration.minutes(5))
-            .environment(lambdaEnv)
+            .environment(curatorEnv)
             .build();
 
         // API Lambda

@@ -34,8 +34,8 @@ public class ClaudeClient {
 
         HttpClient client = HttpClient.newHttpClient();
         String requestBody = mapper.writeValueAsString(Map.of(
-            "model", "claude-sonnet-4-6-20250514",
-            "max_tokens", 4096,
+            "model", "claude-sonnet-4-5-20250929",
+            "max_tokens", 8192,
             "messages", List.of(Map.of("role", "user", "content", prompt))
         ));
 
@@ -49,6 +49,9 @@ public class ClaudeClient {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         var responseBody = mapper.readTree(response.body());
+        if (responseBody.get("content") == null) {
+            throw new RuntimeException("Claude API error (HTTP " + response.statusCode() + "): " + response.body());
+        }
         String content = responseBody.get("content").get(0).get("text").asText();
         return parseCurationResponse(extractJson(content));
     }
