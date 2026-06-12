@@ -47,7 +47,7 @@ dependencies {
     // Testing
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.mockito:mockito-core:5.15.2'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.15.2'
     testImplementation 'net.bytebuddy:byte-buddy:1.15.11'
     testImplementation 'net.bytebuddy:byte-buddy-agent:1.15.11'
@@ -57,7 +57,8 @@ test {
     useJUnitPlatform()
     jvmArgs '-XX:+EnableDynamicAgentLoading',
             '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-            '--add-opens', 'java.base/java.util=ALL-UNNAMED'
+            '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+            '-Dnet.bytebuddy.experimental=true'
 }
 
 task packageFetcher(type: Zip) {
