@@ -25,7 +25,7 @@ public class FetcherLambda implements RequestHandler<Map<String, Object>, Map<St
             System.getenv("DIGESTS_TABLE"),
             System.getenv("FEEDBACK_TABLE"));
         this.configLoader = new SourceConfigLoader();
-        this.fetcherService = new FetcherService(repository, new RssFetcher(), new TwitterFetcher());
+        this.fetcherService = new FetcherService(repository, new RssFetcher(), new TwitterFetcher(), new WebScraperFetcher());
     }
 
     @Override

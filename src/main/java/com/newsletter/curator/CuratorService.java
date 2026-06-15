@@ -66,8 +66,11 @@ public class CuratorService {
         return digest;
     }
 
-    public String generateHtml(Digest digest) {
-        String prevDate = LocalDate.parse(digest.digestDate()).minusDays(1).toString();
-        return htmlGenerator.generateDigestPage(digest, prevDate, null);
+    public String generateHtml(Digest digest, String previousDate, String nextDate) {
+        return htmlGenerator.generateDigestPage(digest, previousDate, nextDate);
+    }
+
+    public Digest getDigest(String date) {
+        return repository.getDigest(date).orElse(null);
     }
 }

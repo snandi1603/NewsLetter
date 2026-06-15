@@ -5,8 +5,12 @@ import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,9 +18,29 @@ import java.util.List;
 
 public class RssFetcher {
 
+    private final HttpClient httpClient = HttpClient.newBuilder()
+        .followRedirects(HttpClient.Redirect.ALWAYS)
+        .build();
+
     public List<Article> fetchFromUrl(String url, String sourceName, String sourceType) {
-        try (InputStream stream = URI.create(url).toURL().openStream()) {
-            return parseFromStream(stream, sourceName, sourceType);
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("User-Agent", "AI-Coffee-Newsletter/1.0 (RSS Reader)")
+                .header("Accept", "application/rss+xml, application/xml, text/xml, */*")
+                .GET()
+                .build();
+
+            HttpResponse<byte[]> response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
+
+            if (response.statusCode() >= 400) {
+                System.err.println("Failed to fetch RSS from " + url + ": HTTP " + response.statusCode());
+                return List.of();
+            }
+
+            try (InputStream stream = new ByteArrayInputStream(response.body())) {
+                return parseFromStream(stream, sourceName, sourceType);
+            }
         } catch (Exception e) {
             System.err.println("Failed to fetch RSS from " + url + ": " + e.getMessage());
             return List.of();

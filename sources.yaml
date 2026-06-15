@@ -1,7 +1,4 @@
 rss:
-  - name: Anthropic
-    url: https://www.anthropic.com/rss.xml
-    type: company_blog
   - name: OpenAI
     url: https://openai.com/blog/rss.xml
     type: company_blog
@@ -11,25 +8,25 @@ rss:
   - name: DeepMind
     url: https://deepmind.google/blog/rss.xml
     type: company_blog
-  - name: XAI
-    url: https://x.ai/blog/rss
-    type: company_blog
   - name: Cursor
-    url: https://www.cursor.com/blog/rss.xml
+    url: https://cursor.com/atom.xml
     type: company_blog
   - name: Kiro
-    url: https://kiro.dev/blog/rss
+    url: https://kiro.dev/blog/feed.rss
     type: company_blog
 
-substack:
-  - name: The Batch (Andrew Ng)
-    url: https://www.deeplearning.ai/the-batch/feed
+substack: []
 
 medium:
   - name: Towards AI
     url: https://pub.towardsai.net/feed
 
-twitter:
-  - handle: karpathy
-  - handle: ylecun
-  - handle: jimfan
+twitter: []
+
+scrape:
+  - name: Anthropic
+    url: https://www.anthropic.com/news
+    linkPattern: /news/
+  - name: xAI
+    url: https://x.ai/blog
+    linkPattern: /blog/

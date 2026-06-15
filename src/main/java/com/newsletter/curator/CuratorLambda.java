@@ -9,6 +9,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class CuratorLambda implements RequestHandler<Map<String, Object>, Map<String, Object>> {
@@ -37,11 +38,14 @@ public class CuratorLambda implements RequestHandler<Map<String, Object>, Map<St
     @Override
     public Map<String, Object> handleRequest(Map<String, Object> event, Context context) {
         try {
-            String today = LocalDate.now().toString();
+            LocalDate todayDate = LocalDate.now();
+            String today = todayDate.toString();
+            String yesterday = todayDate.minusDays(1).toString();
+
             Digest digest = curatorService.curate(today);
 
-            String html = curatorService.generateHtml(digest);
-            uploadToS3("digest/" + today + ".html", html, "text/html");
+            // Regenerate all existing pages with correct navigation links
+            regenerateAllPages(todayDate, context);
 
             String indexHtml = htmlGenerator.generateIndexRedirect(today);
             uploadToS3("index.html", indexHtml, "text/html");
@@ -54,9 +58,37 @@ public class CuratorLambda implements RequestHandler<Map<String, Object>, Map<St
         }
     }
 
+    private void regenerateAllPages(LocalDate todayDate, Context context) {
+        List<String> dates = new java.util.ArrayList<>();
+        // Look back up to 30 days for existing digests
+        for (int i = 30; i >= 0; i--) {
+            String date = todayDate.minusDays(i).toString();
+            Digest d = curatorService.getDigest(date);
+            if (d != null && (!d.top5().isEmpty() || !d.more().isEmpty())) {
+                dates.add(date);
+            }
+        }
+
+        for (int i = 0; i < dates.size(); i++) {
+            String date = dates.get(i);
+            String prev = i > 0 ? dates.get(i - 1) : null;
+            String next = i < dates.size() - 1 ? dates.get(i + 1) : null;
+            Digest d = curatorService.getDigest(date);
+            String html = curatorService.generateHtml(d, prev, next);
+            uploadToS3("digest/" + date + ".html", html, "text/html");
+        }
+        context.getLogger().log("Regenerated " + dates.size() + " digest pages");
+    }
+
     private void uploadToS3(String key, String content, String contentType) {
+        String cacheControl = "max-age=60";
         s3.putObject(
-            PutObjectRequest.builder().bucket(bucketName).key(key).contentType(contentType).build(),
+            PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .contentType(contentType)
+                .cacheControl(cacheControl)
+                .build(),
             RequestBody.fromString(content)
         );
     }

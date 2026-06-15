@@ -24,15 +24,16 @@ public class DynamoDbRepository {
         this.feedbackTable = feedbackTable;
     }
 
-    public boolean exists(String articleId, String fetchDate) {
-        GetItemResponse response = dynamo.getItem(GetItemRequest.builder()
+    public boolean exists(String articleId) {
+        QueryResponse response = dynamo.query(QueryRequest.builder()
             .tableName(articlesTable)
-            .key(Map.of(
-                "article_id", AttributeValue.builder().s(articleId).build(),
-                "fetch_date", AttributeValue.builder().s(fetchDate).build()
+            .keyConditionExpression("article_id = :id")
+            .expressionAttributeValues(Map.of(
+                ":id", AttributeValue.builder().s(articleId).build()
             ))
+            .limit(1)
             .build());
-        return response.hasItem() && !response.item().isEmpty();
+        return !response.items().isEmpty();
     }
 
     public void saveArticle(Article article) {

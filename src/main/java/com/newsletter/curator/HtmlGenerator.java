@@ -23,11 +23,11 @@ public class HtmlGenerator {
         }
 
         String prevLink = previousDate != null
-            ? "<a class=\"nav-link\" href=\"/digest/" + previousDate + ".html\">&laquo; Yesterday</a>"
-            : "<span class=\"nav-link disabled\">&laquo; Yesterday</span>";
+            ? "<a class=\"nav-link\" href=\"/digest/" + previousDate + ".html\">&laquo; " + previousDate + "</a>"
+            : "";
         String nextLink = nextDate != null
-            ? "<a class=\"nav-link\" href=\"/digest/" + nextDate + ".html\">Tomorrow &raquo;</a>"
-            : "<span class=\"nav-link disabled\">Tomorrow &raquo;</span>";
+            ? "<a class=\"nav-link\" href=\"/digest/" + nextDate + ".html\">" + nextDate + " &raquo;</a>"
+            : "";
 
         return """
             <!DOCTYPE html>
