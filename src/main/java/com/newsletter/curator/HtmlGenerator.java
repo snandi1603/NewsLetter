@@ -36,6 +36,7 @@ public class HtmlGenerator {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>AI Coffee Newsletter - %s</title>
+                <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='80'>☕</text><text x='55' y='0.5em' font-size='35'>✨</text></svg>">
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
                 <style>
@@ -247,7 +248,7 @@ public class HtmlGenerator {
                 <div class="container">
                     <header>
                         <h1>AI Coffee Newsletter</h1>
-                        <p class="tagline">Your daily dose of AI news, curated by Claude</p>
+                        <p class="tagline">Your daily dose of AI news</p>
                         <span class="date">%s</span>
                     </header>
                     <nav class="pagination">%s<span></span>%s</nav>
@@ -261,7 +262,7 @@ public class HtmlGenerator {
                     </section>
                     <nav class="pagination">%s<span></span>%s</nav>
                     <footer>
-                        <p>Curated with Claude &middot; Built with Java + AWS Lambda</p>
+                        <p>AI Coffee Newsletter</p>
                     </footer>
                 </div>
                 <script>const API_BASE = '%s';</script>

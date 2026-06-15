@@ -5,8 +5,14 @@ rss:
   - name: Google AI
     url: https://blog.google/technology/ai/rss
     type: company_blog
+  - name: Google Innovation & AI
+    url: https://blog.google/rss/
+    type: company_blog
   - name: DeepMind
     url: https://deepmind.google/blog/rss.xml
+    type: company_blog
+  - name: NVIDIA
+    url: https://blogs.nvidia.com/feed/
     type: company_blog
   - name: Cursor
     url: https://cursor.com/atom.xml
