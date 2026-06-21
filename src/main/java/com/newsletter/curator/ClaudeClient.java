@@ -64,6 +64,18 @@ public class ClaudeClient {
             2. Novelty (new information vs. rehash of known topics)
             3. Breadth of impact (affects the whole AI field vs. niche use case)
 
+            Priority sources (give +1-2 score bonus):
+            - Anthropic (Claude, safety research, model releases)
+            - OpenAI (GPT, DALL-E, research papers)
+            - Google/DeepMind (Gemini, Gemma, research breakthroughs)
+            - NVIDIA (GPU architecture, CUDA, AI infrastructure)
+            - Research/academic content (papers, benchmarks, new techniques)
+            - High-quality Medium articles (tutorials, deep dives, original analysis)
+
+            Deprioritize (give -1-2 score penalty):
+            - Generic product marketing or business announcements
+            - Non-AI content (ads, commerce, travel, hiring)
+
             Score each 1-10 and provide a 2-3 sentence summary.
             Ensure diversity of sources in the top 5 when possible.
 

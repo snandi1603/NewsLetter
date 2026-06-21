@@ -236,6 +236,20 @@ public class HtmlGenerator {
                         opacity: 1;
                         transform: scale(1.2);
                     }
+                    .today-btn {
+                        display: block;
+                        text-align: center;
+                        background: #27ae60;
+                        color: #fff;
+                        padding: 10px 20px;
+                        border-radius: 10px;
+                        font-weight: 700;
+                        font-size: 0.95rem;
+                        text-decoration: none;
+                        margin-bottom: 24px;
+                        transition: background 0.2s;
+                    }
+                    .today-btn:hover { background: #219a52; }
                     footer {
                         text-align: center;
                         margin-top: 60px;
@@ -246,6 +260,7 @@ public class HtmlGenerator {
             </head>
             <body>
                 <div class="container">
+                    <a class="today-btn" href="/">Today</a>
                     <header>
                         <h1>AI Coffee Newsletter</h1>
                         <p class="tagline">Your daily dose of AI news</p>

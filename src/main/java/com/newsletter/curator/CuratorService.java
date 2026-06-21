@@ -12,6 +12,7 @@ public class CuratorService {
 
     private static final int TOP_N = 5;
     private static final int MAX_ARTICLES = 20;
+    private static final int LOOKBACK_DAYS = 3;
 
     private final DynamoDbRepository repository;
     private final ClaudeClient claudeClient;
@@ -24,7 +25,13 @@ public class CuratorService {
     }
 
     public Digest curate(String date) throws Exception {
-        List<Article> articles = repository.getArticlesByDate(date);
+        // Look back up to 3 days for articles to get a diverse pool
+        List<Article> articles = new ArrayList<>();
+        LocalDate targetDate = LocalDate.parse(date);
+        for (int i = 0; i < LOOKBACK_DAYS && articles.size() < MAX_ARTICLES; i++) {
+            String d = targetDate.minusDays(i).toString();
+            articles.addAll(repository.getArticlesByDate(d));
+        }
 
         if (articles.isEmpty()) {
             Digest empty = new Digest(date, List.of(), List.of(), Instant.now().toString());
